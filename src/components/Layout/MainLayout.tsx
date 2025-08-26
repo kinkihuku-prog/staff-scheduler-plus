@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { DashboardPage } from '../Dashboard/DashboardPage';
 import { TimeClockPage } from '../TimeClock/TimeClockPage';
+import { EmployeesPage } from '../Employees/EmployeesPage';
 import { useTimeManagement } from '@/hooks/useTimeManagement';
 import { Card } from '@/components/ui/card';
 
@@ -12,17 +13,6 @@ function ShiftsPage() {
       <h1 className="text-3xl font-bold mb-6">シフト管理</h1>
       <Card className="p-8 text-center shadow-card">
         <p className="text-muted-foreground">シフト管理機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
-
-function EmployeesPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">従業員管理</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">従業員管理機能は準備中です</p>
       </Card>
     </div>
   );

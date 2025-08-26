@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import dayjs from '@/utils/dayjs';
 import { WorkStatus, DashboardStats, WeeklyStats } from '@/types';
-import { database } from '@/utils/database';
+import { database } from '@/lib/database';
 
 // Time management hook - will be enhanced for Tauri SQLite
 export function useTimeManagement() {
@@ -33,7 +33,8 @@ export function useTimeManagement() {
   useEffect(() => {
     const initDB = async () => {
       try {
-        await database.initializeDatabase();
+        database.loadFromStorage();
+        database.initialize();
         setIsInitialized(true);
         console.log('Database initialized successfully');
       } catch (error) {
@@ -55,32 +56,39 @@ export function useTimeManagement() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleStatusChange = (newStatus: WorkStatus) => {
+  const handleStatusChange = (newStatus: WorkStatus, employeeId?: string) => {
     setCurrentStatus(newStatus);
     
     // In Tauri version, this would save to SQLite
     const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
     console.log(`Status changed to: ${newStatus} at ${timestamp}`);
     
-    // Create time record entry
-    database.createTimeRecord({
-      employeeId: '1', // Current user ID - would come from auth
-      date: dayjs().format('YYYY-MM-DD'),
-      status: newStatus === 'offline' ? 'completed' : 'working',
-      workingHours: 0,
-      overtimeHours: 0,
-      breakDuration: 0,
-    });
+    // Create time record entry - use provided employeeId or first employee for demo
+    const employees = database.getEmployees();
+    const currentEmployee = employeeId 
+      ? employees.find(emp => emp.id === employeeId)
+      : employees[0];
+    
+    if (currentEmployee) {
+      database.createTimeRecord({
+        employeeId: currentEmployee.id,
+        date: dayjs().format('YYYY-MM-DD'),
+        status: newStatus === 'offline' ? 'completed' : 'working',
+        workingHours: 0,
+        overtimeHours: 0,
+        breakDuration: 0,
+      });
+    }
   };
 
   return {
     currentStatus,
     currentTime,
-    dashboardStats,
+    dashboardStats: database.getDashboardStats(),
     weeklyStats,
     isInitialized,
     handleStatusChange,
     // Database operations
-    ...database,
+    database,
   };
 }

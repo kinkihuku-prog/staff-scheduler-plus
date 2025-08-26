@@ -12,15 +12,17 @@ import {
   Calendar
 } from 'lucide-react';
 import dayjs from 'dayjs';
-import { WorkStatus } from '@/types';
+import { WorkStatus, Employee } from '@/types';
+import { EmployeeSelector } from './EmployeeSelector';
 
 interface TimeClockPageProps {
   currentStatus: WorkStatus;
-  onStatusChange: (status: WorkStatus) => void;
+  onStatusChange: (status: WorkStatus, employeeId?: string) => void;
 }
 
 export function TimeClockPage({ currentStatus, onStatusChange }: TimeClockPageProps) {
   const [currentTime, setCurrentTime] = useState(dayjs().format('HH:mm:ss'));
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
 
   // Update current time every second
   useState(() => {
@@ -65,12 +67,20 @@ export function TimeClockPage({ currentStatus, onStatusChange }: TimeClockPagePr
   const StatusIcon = config.icon;
 
   const handleClockAction = () => {
+    if (!selectedEmployee) {
+      alert('従業員を選択してください');
+      return;
+    }
     const nextStatus = config.nextAction as WorkStatus;
-    onStatusChange(nextStatus);
+    onStatusChange(nextStatus, selectedEmployee.id);
   };
 
   const handleForceClockOut = () => {
-    onStatusChange('offline');
+    if (!selectedEmployee) {
+      alert('従業員を選択してください');
+      return;
+    }
+    onStatusChange('offline', selectedEmployee.id);
   };
 
   return (
@@ -81,6 +91,38 @@ export function TimeClockPage({ currentStatus, onStatusChange }: TimeClockPagePr
           {dayjs().format('YYYY年MM月DD日 (ddd)')}
         </p>
       </div>
+
+      {/* Employee Selection */}
+      <Card className="shadow-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Clock size={20} />
+            従業員選択
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EmployeeSelector 
+            selectedEmployeeId={selectedEmployee?.id}
+            onSelect={setSelectedEmployee}
+          />
+          {selectedEmployee && (
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="font-medium text-lg">{selectedEmployee.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {selectedEmployee.role} • {selectedEmployee.department}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-medium text-lg">{selectedEmployee.hourlyWage}円/時</div>
+                  <div className="text-sm text-muted-foreground">時給</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Current Time Display */}
       <Card className="bg-gradient-primary text-primary-foreground shadow-elevated">
@@ -108,6 +150,7 @@ export function TimeClockPage({ currentStatus, onStatusChange }: TimeClockPagePr
               size="lg" 
               className="w-full h-16 text-lg bg-gradient-primary hover:opacity-90 transition-opacity"
               onClick={handleClockAction}
+              disabled={!selectedEmployee}
             >
               {config.nextLabel}
             </Button>
@@ -118,6 +161,7 @@ export function TimeClockPage({ currentStatus, onStatusChange }: TimeClockPagePr
                 size="lg" 
                 className="w-full h-12"
                 onClick={handleForceClockOut}
+                disabled={!selectedEmployee}
               >
                 <Square size={20} className="mr-2" />
                 強制退勤
