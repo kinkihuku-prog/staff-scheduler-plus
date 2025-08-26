@@ -99,9 +99,6 @@ export function EmployeeSelector({ selectedEmployeeId, onSelect }: EmployeeSelec
                         {employee.code} • {employee.role}
                       </div>
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {employee.hourlyWage}円/時
-                    </div>
                   </div>
                 </CommandItem>
               ))}
