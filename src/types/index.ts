@@ -49,6 +49,7 @@ export const ShiftSchema = z.object({
   breakDuration: z.number().default(60), // minutes
   type: z.enum(['regular', 'overtime', 'holiday']),
   status: z.enum(['scheduled', 'confirmed', 'cancelled']),
+  notes: z.string().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -58,6 +59,8 @@ export type Shift = z.infer<typeof ShiftSchema>;
 export const WageRuleSchema = z.object({
   id: z.string(),
   name: z.string(),
+  type: z.enum(['overtime', 'night', 'holiday']),
+  rate: z.number(), // multiplier (e.g., 1.25 for 25% increase)
   baseRate: z.number(),
   overtimeRate: z.number(), // multiplier (e.g., 1.25 for 25% increase)
   nightRate: z.number(), // multiplier for night hours (22:00-5:00)
@@ -66,6 +69,7 @@ export const WageRuleSchema = z.object({
   nightEndHour: z.number().default(5),
   roundingMinutes: z.number().default(15), // round to nearest X minutes
   isActive: z.boolean().default(true),
+  conditions: z.record(z.string(), z.any()).default({}),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

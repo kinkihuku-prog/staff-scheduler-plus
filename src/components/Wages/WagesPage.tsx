@@ -41,6 +41,13 @@ export function WagesPage() {
       name: '新しい手当ルール',
       type: 'overtime',
       rate: 1.25,
+      baseRate: 1000,
+      overtimeRate: 1.25,
+      nightRate: 1.25,
+      holidayRate: 1.35,
+      nightStartHour: 22,
+      nightEndHour: 5,
+      roundingMinutes: 15,
       conditions: {},
       isActive: false
     };

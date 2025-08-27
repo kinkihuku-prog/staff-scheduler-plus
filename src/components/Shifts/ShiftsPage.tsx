@@ -63,6 +63,9 @@ export function ShiftsPage() {
       date: shiftForm.date,
       startTime: shiftForm.startTime,
       endTime: shiftForm.endTime,
+      breakDuration: 60,
+      type: 'regular',
+      status: 'scheduled',
       notes: shiftForm.notes || undefined
     };
 
@@ -122,6 +125,9 @@ export function ShiftsPage() {
       date: nextWeekDate,
       startTime: shift.startTime,
       endTime: shift.endTime,
+      breakDuration: shift.breakDuration,
+      type: shift.type,
+      status: 'scheduled',
       notes: shift.notes
     };
 

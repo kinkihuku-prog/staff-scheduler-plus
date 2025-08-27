@@ -49,6 +49,8 @@ export const initializeDatabase = () => {
     {
       id: '1',
       name: '標準時給ルール',
+      type: 'overtime',
+      rate: 1.25,
       baseRate: 1000,
       overtimeRate: 1.25,
       nightRate: 1.25,
@@ -56,6 +58,7 @@ export const initializeDatabase = () => {
       nightStartHour: 22,
       nightEndHour: 5,
       roundingMinutes: 15,
+      conditions: {},
       isActive: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

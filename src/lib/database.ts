@@ -61,6 +61,8 @@ class LocalDatabase {
     // Create sample wage rule
     this.createWageRule({
       name: '基本賃金規則',
+      type: 'overtime',
+      rate: 1.25,
       baseRate: 1000,
       overtimeRate: 1.25,
       nightRate: 1.25,
@@ -68,6 +70,7 @@ class LocalDatabase {
       nightStartHour: 22,
       nightEndHour: 5,
       roundingMinutes: 15,
+      conditions: {},
       isActive: true
     });
   }
