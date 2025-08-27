@@ -16,49 +16,20 @@ class LocalDatabase {
 
   // Initialize with sample data
   initialize(): void {
-    if (this.employees.length === 0) {
-      this.createSampleData();
-    }
+    // Clear any existing data first for fresh start
+    this.employees = [];
+    this.timeRecords = [];
+    this.shifts = [];
+    this.wageRules = [];
+    this.payrollPeriods = [];
+    this.payrollRecords = [];
+    
+    // Create basic wage rule for new system
+    this.createSampleWageRule();
   }
 
-  private createSampleData(): void {
-    // Create sample employees
-    const sampleEmployees: Omit<Employee, 'id' | 'createdAt' | 'updatedAt'>[] = [
-      {
-        code: 'EMP001',
-        name: '田中 太郎',
-        email: 'tanaka@example.com',
-        role: '店長',
-        department: '販売部',
-        hourlyWage: 1200,
-        hireDate: '2023-01-15',
-        status: 'active'
-      },
-      {
-        code: 'EMP002',
-        name: '佐藤 花子',
-        email: 'sato@example.com',
-        role: 'アルバイト',
-        department: '販売部',
-        hourlyWage: 1000,
-        hireDate: '2023-03-01',
-        status: 'active'
-      },
-      {
-        code: 'EMP003',
-        name: '鈴木 次郎',
-        email: 'suzuki@example.com',
-        role: 'パート',
-        department: '販売部',
-        hourlyWage: 950,
-        hireDate: '2023-06-01',
-        status: 'active'
-      }
-    ];
-
-    sampleEmployees.forEach(emp => this.createEmployee(emp));
-
-    // Create sample wage rule
+  private createSampleWageRule(): void {
+    // Create basic wage rule only
     this.createWageRule({
       name: '基本賃金規則',
       type: 'overtime',
@@ -244,6 +215,19 @@ class LocalDatabase {
         console.error('Failed to load data from storage:', error);
       }
     }
+  }
+
+  // Clear all data
+  clearAllData(): void {
+    localStorage.removeItem('time-management-data');
+    this.employees = [];
+    this.timeRecords = [];
+    this.shifts = [];
+    this.wageRules = [];
+    this.payrollPeriods = [];
+    this.payrollRecords = [];
+    this.createSampleWageRule();
+    this.saveToStorage();
   }
 
   // Get dashboard statistics

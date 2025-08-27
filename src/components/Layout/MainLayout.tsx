@@ -3,64 +3,12 @@ import { Sidebar } from './Sidebar';
 import { DashboardPage } from '../Dashboard/DashboardPage';
 import { TimeClockPage } from '../TimeClock/TimeClockPage';
 import { EmployeesPage } from '../Employees/EmployeesPage';
+import { ShiftsPage } from '../Shifts/ShiftsPage';
+import { WagesPage } from '../Wages/WagesPage';
+import { PayrollPage } from '../Payroll/PayrollPage';
+import { ReportsPage } from '../Reports/ReportsPage';
+import { SettingsPage } from '../Settings/SettingsPage';
 import { useTimeManagement } from '@/hooks/useTimeManagement';
-import { Card } from '@/components/ui/card';
-
-// Placeholder components for other pages
-function ShiftsPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">シフト管理</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">シフト管理機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
-
-function WagesPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">時給・手当設定</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">時給・手当設定機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
-
-function PayrollPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">給与計算</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">給与計算機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
-
-function ReportsPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">レポート</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">レポート機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
-
-function SettingsPage() {
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">設定</h1>
-      <Card className="p-8 text-center shadow-card">
-        <p className="text-muted-foreground">設定機能は準備中です</p>
-      </Card>
-    </div>
-  );
-}
 
 export function MainLayout() {
   const [activeTab, setActiveTab] = useState('dashboard');
