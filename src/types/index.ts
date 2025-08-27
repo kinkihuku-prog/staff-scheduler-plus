@@ -14,6 +14,11 @@ export const EmployeeSchema = z.object({
   hourlyWage: z.number().min(0),
   hireDate: z.string(),
   status: z.enum(['active', 'inactive']),
+  workStartTime: z.string().optional(), // 勤務開始時間 (例: "09:00")
+  workEndTime: z.string().optional(), // 勤務終了時間 (例: "18:00")
+  fixedDaysOff: z.array(z.number()).optional(), // 固定休み曜日 (0=日曜, 1=月曜, ...)
+  fixedWorkDays: z.array(z.number()).optional(), // 固定出勤日 (0=日曜, 1=月曜, ...)
+  payDay: z.number().optional(), // 給料日 (月の何日)
   createdAt: z.string(),
   updatedAt: z.string(),
 });

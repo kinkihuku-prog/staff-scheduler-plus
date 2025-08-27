@@ -95,55 +95,55 @@ export function EmployeesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">従業員管理</h1>
-          <p className="text-muted-foreground">従業員の登録・編集・削除を行います</p>
+          <h1 className="text-2xl font-bold text-foreground">従業員管理</h1>
+          <p className="text-muted-foreground text-sm">従業員の登録・編集・削除を行います</p>
         </div>
-        <Button onClick={handleCreateEmployee} className="gap-2">
-          <Plus size={16} />
+        <Button onClick={handleCreateEmployee} className="gap-2 h-8 px-3">
+          <Plus size={14} />
           新規登録
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">総従業員数</CardTitle>
+            <CardTitle className="text-xs font-medium text-muted-foreground">総従業員数</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{employees.length}名</div>
+          <CardContent className="pt-1">
+            <div className="text-xl font-bold">{employees.length}名</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">在籍者</CardTitle>
+            <CardTitle className="text-xs font-medium text-muted-foreground">在籍者</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-success">
+          <CardContent className="pt-1">
+            <div className="text-xl font-bold text-success">
               {employees.filter(emp => emp.status === 'active').length}名
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">退職者</CardTitle>
+            <CardTitle className="text-xs font-medium text-muted-foreground">退職者</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-muted-foreground">
+          <CardContent className="pt-1">
+            <div className="text-xl font-bold text-muted-foreground">
               {employees.filter(emp => emp.status === 'inactive').length}名
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">平均時給</CardTitle>
+            <CardTitle className="text-xs font-medium text-muted-foreground">平均時給</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
+          <CardContent className="pt-1">
+            <div className="text-xl font-bold">
               {employees.length > 0 
                 ? Math.round(employees.reduce((sum, emp) => sum + emp.hourlyWage, 0) / employees.length)
                 : 0}円

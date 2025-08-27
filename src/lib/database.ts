@@ -183,8 +183,23 @@ class LocalDatabase {
     return [...this.wageRules];
   }
 
-  getActiveWageRule(): WageRule | undefined {
-    return this.wageRules.find(rule => rule.isActive);
+  // Add delete methods to database
+  deleteWageRule(id: string): boolean {
+    const index = this.wageRules.findIndex(rule => rule.id === id);
+    if (index === -1) return false;
+
+    this.wageRules.splice(index, 1);
+    this.saveToStorage();
+    return true;
+  }
+
+  deleteShift(id: string): boolean {
+    const index = this.shifts.findIndex(shift => shift.id === id);
+    if (index === -1) return false;
+
+    this.shifts.splice(index, 1);
+    this.saveToStorage();
+    return true;
   }
 
   // Storage operations

@@ -21,7 +21,10 @@ const employeeFormSchema = z.object({
   department: z.string().min(1, '部署は必須です'),
   hourlyWage: z.number().min(0, '時給は0円以上で入力してください'),
   hireDate: z.string().min(1, '入社日は必須です'),
-  status: z.enum(['active', 'inactive'])
+  status: z.enum(['active', 'inactive']),
+  workStartTime: z.string().optional(),
+  workEndTime: z.string().optional(),
+  payDay: z.number().min(1).max(31).optional()
 });
 
 type EmployeeFormData = z.infer<typeof employeeFormSchema>;
@@ -63,7 +66,10 @@ export function EmployeeDialog({ employee, open, onOpenChange, onSave }: Employe
       department: '',
       hourlyWage: 1000,
       hireDate: dayjs().format('YYYY-MM-DD'),
-      status: 'active'
+      status: 'active',
+      workStartTime: '09:00',
+      workEndTime: '18:00',
+      payDay: 25
     }
   });
 

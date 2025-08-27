@@ -32,11 +32,11 @@ export function DashboardPage({ stats, weeklyStats, currentTime, userStatus }: D
   const StatusIcon = currentStatus.icon;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">ダッシュボード</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl font-bold text-foreground">ダッシュボード</h1>
+          <p className="text-muted-foreground mt-1 text-sm">
             {dayjs().format('YYYY年MM月DD日 (ddd)')} - {currentTime}
           </p>
         </div>
@@ -55,47 +55,49 @@ export function DashboardPage({ stats, weeklyStats, currentTime, userStatus }: D
         </div>
       </div>
 
-      {/* Current Status Card */}
-      <Card className="bg-gradient-primary text-primary-foreground shadow-elevated">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock size={24} />
-            今日の勤務状況
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold">08:30</div>
-              <div className="text-sm opacity-90">出勤時刻</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold">01:00</div>
-              <div className="text-sm opacity-90">休憩時間</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold">7.5h</div>
-              <div className="text-sm opacity-90">勤務時間</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold">0.5h</div>
-              <div className="text-sm opacity-90">残業時間</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="shadow-card hover:shadow-elevated transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              総従業員数
+      {/* Current Status Card - Only show if there's actual data */}
+      {stats.totalHoursToday > 0 && (
+        <Card className="bg-gradient-primary text-primary-foreground shadow-elevated">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Clock size={20} />
+              今日の勤務状況
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{stats.totalEmployees}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="text-center">
+                <div className="text-xl font-bold">--:--</div>
+                <div className="text-xs opacity-90">出勤時刻</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold">--:--</div>
+                <div className="text-xs opacity-90">休憩時間</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold">{stats.totalHoursToday.toFixed(1)}h</div>
+                <div className="text-xs opacity-90">勤務時間</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl font-bold">0h</div>
+                <div className="text-xs opacity-90">残業時間</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="shadow-card hover:shadow-elevated transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-xs font-medium text-muted-foreground">
+              総従業員数
+            </CardTitle>
+            <Users className="h-3 w-3 text-muted-foreground" />
+          </CardHeader>
+          <CardContent className="pt-1">
+            <div className="text-xl font-bold text-foreground">{stats.totalEmployees}</div>
             <p className="text-xs text-muted-foreground">
               アクティブな従業員
             </p>
@@ -110,7 +112,7 @@ export function DashboardPage({ stats, weeklyStats, currentTime, userStatus }: D
             <div className="h-2 w-2 rounded-full bg-working"></div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-working">{stats.currentlyWorking}</div>
+            <div className="text-xl font-bold text-working">{stats.currentlyWorking}</div>
             <p className="text-xs text-muted-foreground">
               現在勤務中の従業員
             </p>
@@ -125,7 +127,7 @@ export function DashboardPage({ stats, weeklyStats, currentTime, userStatus }: D
             <Coffee className="h-4 w-4 text-break" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-break">{stats.onBreak}</div>
+            <div className="text-xl font-bold text-break">{stats.onBreak}</div>
             <p className="text-xs text-muted-foreground">
               休憩中の従業員
             </p>
@@ -140,7 +142,7 @@ export function DashboardPage({ stats, weeklyStats, currentTime, userStatus }: D
             <AlertCircle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-warning">{stats.pendingApprovals}</div>
+            <div className="text-xl font-bold text-warning">{stats.pendingApprovals}</div>
             <p className="text-xs text-muted-foreground">
               修正申請
             </p>
